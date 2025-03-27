@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Поделиться" %}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h2 class="text-center mb-4">{% trans "Пригласите друзей" %}</h2>
+                    <p class="text-muted text-center mb-4">
+                        {% trans "Получите 500 рублей за каждого приглашенного друга" %}
+                    </p>
+
+                    <div class="mb-4">
+                        <h5>{% trans "Ваш реферальный код" %}</h5>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="referralCode" value="{{ referral_code.code }}" readonly>
+                            <button class="btn btn-primary" onclick="copyText('referralCode')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>{% trans "Ваша реферальная ссылка" %}</h5>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="referralLink" value="{{ site_url }}/register/?ref={{ referral_code.code }}" readonly>
+                            <button class="btn btn-primary" onclick="copyText('referralLink')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>{% trans "Пригласить по email" %}</h5>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="email" name="email" class="form-control" placeholder="{% trans 'Email друга' %}" required>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>{% trans "Поделиться в социальных сетях" %}</h5>
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="https://vk.com/share.php?url={{ site_url }}/register/?ref={{ referral_code.code }}" target="_blank" class="btn btn-primary">
+                                <i class="fab fa-vk"></i> VK
+                            </a>
+                            <a href="https://t.me/share/url?url={{ site_url }}/register/?ref={{ referral_code.code }}" target="_blank" class="btn btn-primary">
+                                <i class="fab fa-telegram"></i> Telegram
+                            </a>
+                            <a href="https://wa.me/?text={{ site_url }}/register/?ref={{ referral_code.code }}" target="_blank" class="btn btn-primary">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h5 class="mb-4">{% trans "Статистика приглашений" %}</h5>
+                    <div class="row text-center mb-4">
+                        <div class="col">
+                            <h3 class="mb-0">{{ invitations.count }}</h3>
+                            <small class="text-muted">{% trans "Приглашений" %}</small>
+                        </div>
+                        <div class="col">
+                            <h3 class="mb-0">{{ invitations.filter.is_registered.count }}</h3>
+                            <small class="text-muted">{% trans "Регистраций" %}</small>
+                        </div>
+                        <div class="col">
+                            <h3 class="mb-0">{{ total_bonus }} ₽</h3>
+                            <small class="text-muted">{% trans "Заработано" %}</small>
+                        </div>
+                    </div>
+
+                    {% if invitations %}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>{% trans "Email" %}</th>
+                                        <th>{% trans "Дата" %}</th>
+                                        <th>{% trans "Статус" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for invitation in invitations %}
+                                        <tr>
+                                            <td>{{ invitation.referred_email }}</td>
+                                            <td>{{ invitation.created_at|date:"d.m.Y" }}</td>
+                                            <td>
+                                                {% if invitation.is_registered %}
+                                                    <span class="badge bg-success">{% trans "Зарегистрирован" %}</span>
+                                                {% else %}
+                                                    <span class="badge bg-warning">{% trans "Ожидает" %}</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyText(elementId) {
+    const element = document.getElementById(elementId);
+    element.select();
+    document.execCommand('copy');
+    alert('{% trans "Скопировано!" %}');
+}
+</script>
+{% endblock %} 

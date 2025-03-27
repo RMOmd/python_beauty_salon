@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Информация о мастере -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="{{ master.profile_image.url }}" class="card-img-top" alt="{{ master.user.get_full_name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ master.user.get_full_name }}</h5>
+                    <p class="card-text">
+                        <strong>Специализация:</strong> {{ master.get_specialization_display }}<br>
+                        <strong>Опыт работы:</strong> {{ master.experience }} лет<br>
+                        <strong>Телефон:</strong> {{ master.phone }}
+                    </p>
+                    <p class="card-text">{{ master.about }}</p>
+                    
+                    {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'toggle_favorite' master.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn {% if is_favorite %}btn-danger{% else %}btn-primary{% endif %}">
+                                {% if is_favorite %}
+                                    Удалить из избранного
+                                {% else %}
+                                    Добавить в избранное
+                                {% endif %}
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Услуги мастера -->
+        <div class="col-md-8">
+            <h3>Услуги</h3>
+            <div class="list-group">
+                {% for service in services %}
+                <div class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ service.name }}</h5>
+                        <small>{{ service.duration }} мин</small>
+                    </div>
+                    <p class="mb-1">{{ service.description }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong class="text-primary">{{ service.price }} ₽</strong>
+                        <a href="{% url 'book_service' service.id master.id %}" class="btn btn-primary btn-sm">Записаться</a>
+                    </div>
+                </div>
+                {% empty %}
+                <p>У этого мастера пока нет доступных услуг.</p>
+                {% endfor %}
+            </div>
+
+            <!-- Портфолио -->
+            <h3 class="mt-4">Портфолио</h3>
+            <div class="row">
+                {% for image in portfolio_images %}
+                <div class="col-md-4 mb-3">
+                    <img src="{{ image.image.url }}" class="img-fluid rounded" alt="Portfolio item">
+                </div>
+                {% empty %}
+                <p>В портфолио пока нет работ.</p>
+                {% endfor %}
+            </div>
+
+            <!-- Сертификаты -->
+            <h3 class="mt-4">Сертификаты</h3>
+            <div class="row">
+                {% for cert in certificates %}
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <img src="{{ cert.image.url }}" class="card-img-top" alt="{{ cert.name }}">
+                        <div class="card-body">
+                            <p class="card-text">{{ cert.name }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>Нет загруженных сертификатов.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

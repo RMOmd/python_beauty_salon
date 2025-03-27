@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Категории услуг - Салон красоты{% endblock %}
+
+{% block content %}
+<section class="page-header py-5 bg-light">
+    <div class="container">
+        <h1 class="text-center mb-4">Наши услуги</h1>
+        <p class="text-center lead">Выберите интересующую вас категорию услуг</p>
+    </div>
+</section>
+
+<section class="categories-grid py-5">
+    <div class="container">
+        <div class="row">
+            {% for category in categories %}
+            <div class="col-md-4 mb-4">
+                <div class="category-card card h-100">
+                    {% if category.image %}
+                    <div class="category-image">
+                        <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}">
+                        <div class="category-overlay">
+                            <a href="{% url 'main:category_detail' category.slug %}" class="btn btn-light">Подробнее</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="card-body text-center">
+                        <h3 class="card-title">{{ category.name }}</h3>
+                        <p class="card-text">{{ category.description|truncatewords:20 }}</p>
+                        <a href="{% url 'main:category_detail' category.slug %}" class="btn btn-primary">Смотреть услуги</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="features-section py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Почему выбирают нас?</h2>
+        <div class="row">
+            <div class="col-md-4 text-center mb-4">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-certificate fa-3x text-primary"></i>
+                </div>
+                <h4>Профессионализм</h4>
+                <p>Наши мастера имеют многолетний опыт и регулярно повышают квалификацию</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-clock fa-3x text-primary"></i>
+                </div>
+                <h4>Удобное время</h4>
+                <p>Гибкий график работы и возможность онлайн-записи</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-heart fa-3x text-primary"></i>
+                </div>
+                <h4>Индивидуальный подход</h4>
+                <p>Мы учитываем все ваши пожелания и особенности</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

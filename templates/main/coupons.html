@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Мои купоны" %}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">{% trans "Мои купоны" %}</h2>
+            {% if coupons %}
+                <div class="row g-4">
+                    {% for coupon in coupons %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="card-title mb-0">{{ coupon.code }}</h5>
+                                    <span class="badge {% if coupon.is_active %}bg-success{% else %}bg-danger{% endif %}">
+                                        {% if coupon.is_active %}{% trans "Активен" %}{% else %}{% trans "Использован" %}{% endif %}
+                                    </span>
+                                </div>
+                                <p class="card-text">{{ coupon.description }}</p>
+                                <div class="d-flex justify-content-between align-items-end">
+                                    <div>
+                                        <small class="text-muted d-block">{% trans "Скидка" %}</small>
+                                        <strong class="text-primary">{{ coupon.discount }}%</strong>
+                                    </div>
+                                    <div class="text-end">
+                                        <small class="text-muted d-block">{% trans "Действует до" %}</small>
+                                        <strong>{{ coupon.valid_until|date:"d.m.Y" }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if coupon.is_active %}
+                            <div class="card-footer bg-transparent">
+                                <button class="btn btn-primary w-100" onclick="copyCouponCode('{{ coupon.code }}')">
+                                    <i class="fas fa-copy me-2"></i>{% trans "Скопировать код" %}
+                                </button>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-ticket-alt fa-3x text-muted mb-3"></i>
+                    <h4>{% trans "У вас пока нет купонов" %}</h4>
+                    <p class="text-muted">{% trans "Следите за акциями и получайте скидочные купоны" %}</p>
+                    <a href="{% url 'main:home' %}" class="btn btn-primary">
+                        {% trans "На главную" %}
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function copyCouponCode(code) {
+    navigator.clipboard.writeText(code).then(() => {
+        alert('{% trans "Код купона скопирован!" %}');
+    });
+}
+</script>
+{% endblock %} 

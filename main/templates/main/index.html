@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="hero-section bg-primary text-white py-5 mb-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="display-4 mb-4">Добро пожаловать в салон красоты</h1>
+                <p class="lead mb-4">Мы предлагаем широкий спектр услуг для вашей красоты и здоровья</p>
+                {% if not user.is_authenticated %}
+                    <div class="d-flex gap-3">
+                        <a href="{% url 'login' %}" class="btn btn-light btn-lg">Войти</a>
+                        <a href="{% url 'main:register' %}" class="btn btn-outline-light btn-lg">Регистрация</a>
+                    </div>
+                {% else %}
+                    <a href="{% url 'main:appointments' %}" class="btn btn-light btn-lg">Записаться на услугу</a>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <img src="{% static 'images/hero-image.jpg' %}" alt="Салон красоты" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <section class="mb-5">
+        <h2 class="text-center mb-4">Наши услуги</h2>
+        <div class="row g-4">
+            {% for service in services %}
+            <div class="col-md-4">
+                <div class="card h-100">
+                    {% if service.image %}
+                        <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ service.name }}</h5>
+                        <p class="card-text">{{ service.description }}</p>
+                        <p class="card-text"><strong>Цена: {{ service.price }} ₽</strong></p>
+                        <a href="{% url 'main:service_detail' service.id %}" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'main:services' %}" class="btn btn-outline-primary">Все услуги</a>
+        </div>
+    </section>
+
+    <section class="mb-5">
+        <h2 class="text-center mb-4">Наши мастера</h2>
+        <div class="row g-4">
+            {% for master in masters %}
+            <div class="col-md-4">
+                <div class="card h-100">
+                    {% if master.photo %}
+                        <img src="{{ master.photo.url }}" class="card-img-top" alt="{{ master.user.get_full_name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ master.user.get_full_name }}</h5>
+                        <p class="card-text">{{ master.specialization }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="rating">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= master.rating %}
+                                        <i class="fas fa-star text-warning"></i>
+                                    {% else %}
+                                        <i class="far fa-star text-warning"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <a href="{% url 'main:master_detail' master.id %}" class="btn btn-primary">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'main:masters' %}" class="btn btn-outline-primary">Все мастера</a>
+        </div>
+    </section>
+
+    {% if testimonials %}
+    <section class="mb-5">
+        <h2 class="text-center mb-4">Отзывы клиентов</h2>
+        <div class="row g-4">
+            {% for testimonial in testimonials %}
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= testimonial.rating %}
+                                    <i class="fas fa-star text-warning"></i>
+                                {% else %}
+                                    <i class="far fa-star text-warning"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <p class="card-text">{{ testimonial.text }}</p>
+                        <p class="card-text"><small class="text-muted">{{ testimonial.client.get_full_name }}</small></p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock %} 

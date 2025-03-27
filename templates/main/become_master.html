@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Стать мастером" %}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="text-center mb-4">{% trans "Стать мастером" %}</h2>
+                    <p class="text-muted text-center mb-5">
+                        {% trans "Присоединяйтесь к нашей команде профессионалов и развивайте свой бизнес вместе с нами" %}
+                    </p>
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <h5>{% trans "Личная информация" %}</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="first_name" class="form-label">{% trans "Имя" %}</label>
+                                    <input type="text" class="form-control" id="first_name" name="first_name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="last_name" class="form-label">{% trans "Фамилия" %}</label>
+                                    <input type="text" class="form-control" id="last_name" name="last_name" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="phone" class="form-label">{% trans "Телефон" %}</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5>{% trans "Профессиональная информация" %}</h5>
+                            <div class="mb-3">
+                                <label for="specialization" class="form-label">{% trans "Специализация" %}</label>
+                                <select class="form-select" id="specialization" name="specialization" required>
+                                    <option value="">{% trans "Выберите специализацию" %}</option>
+                                    <option value="hair">{% trans "Парикмахер" %}</option>
+                                    <option value="nails">{% trans "Мастер маникюра" %}</option>
+                                    <option value="makeup">{% trans "Визажист" %}</option>
+                                    <option value="massage">{% trans "Массажист" %}</option>
+                                    <option value="cosmetology">{% trans "Косметолог" %}</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="experience" class="form-label">{% trans "Опыт работы (лет)" %}</label>
+                                <input type="number" class="form-control" id="experience" name="experience" min="0" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="about" class="form-label">{% trans "О себе" %}</label>
+                                <textarea class="form-control" id="about" name="about" rows="4" required></textarea>
+                                <div class="form-text">{% trans "Расскажите о своем опыте, навыках и достижениях" %}</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5>{% trans "Портфолио" %}</h5>
+                            <div class="mb-3">
+                                <label for="portfolio" class="form-label">{% trans "Фотографии работ" %}</label>
+                                <input type="file" class="form-control" id="portfolio" name="portfolio" multiple accept="image/*">
+                                <div class="form-text">{% trans "Загрузите до 5 фотографий ваших лучших работ" %}</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="certificates" class="form-label">{% trans "Сертификаты" %}</label>
+                                <input type="file" class="form-control" id="certificates" name="certificates" multiple accept=".pdf,image/*">
+                                <div class="form-text">{% trans "Загрузите сканы ваших сертификатов и дипломов" %}</div>
+                            </div>
+                        </div>
+
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="agreement" name="agreement" required>
+                            <label class="form-check-label" for="agreement">
+                                {% trans "Я согласен с условиями работы и политикой конфиденциальности" %}
+                            </label>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                {% trans "Отправить заявку" %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

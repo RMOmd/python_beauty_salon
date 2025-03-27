@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Избранное" %}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <h2 class="mb-4">{% trans "Избранные мастера" %}</h2>
+
+            {% if favorites %}
+                <div class="row g-4">
+                    {% for favorite in favorites %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100 shadow-sm">
+                                {% if favorite.master.avatar %}
+                                    <img src="{{ favorite.master.avatar.url }}" class="card-img-top" alt="{{ favorite.master.user.get_full_name }}">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ favorite.master.user.get_full_name }}</h5>
+                                    <p class="card-text text-muted">{{ favorite.master.specialization }}</p>
+                                    <p class="card-text">{{ favorite.master.about|truncatewords:20 }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a href="{% url 'main:master_detail' favorite.master.id %}" class="btn btn-primary">
+                                            {% trans "Подробнее" %}
+                                        </a>
+                                        <form method="post" action="{% url 'main:remove_from_favorites' favorite.master.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-outline-danger">
+                                                <i class="fas fa-heart-broken"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-heart fa-3x text-muted mb-3"></i>
+                    <h3>{% trans "У вас пока нет избранных мастеров" %}</h3>
+                    <p class="text-muted">
+                        {% trans "Добавляйте мастеров в избранное, чтобы быстро находить их" %}
+                    </p>
+                    <a href="{% url 'main:master_list' %}" class="btn btn-primary">
+                        {% trans "Найти мастера" %}
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

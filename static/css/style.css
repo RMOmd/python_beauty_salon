@@ -1,0 +1,945 @@
+/* Основные стили */
+:root {
+    --primary-color: #6f42c1;    /* Основной розовый */
+    --secondary-color: #FF6B9D;  /* Вторичный розовый */
+    --accent-color: #FFD700;     /* Золотой акцент */
+    --text-color: #333;          /* Тёмно-серый для текста */
+    --light-gray: #F5F5F5;       /* Светло-серый фон */
+    --dark-gray: #666666;        /* Серый для второстепенного текста */
+    --white: #FFFFFF;            /* Белый */
+    --black: #000000;            /* Чёрный */
+    --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    --dark-color: #333;
+    --light-color: #f8f9fa;
+    --sidebar-width: 250px;
+    --sidebar-collapsed-width: 70px;
+    --primary-hover: #6935B3;
+    --light-text: #666;
+    --primary-dark: #5a32a3;
+    --primary-light: #8a6fd1;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+    background-color: var(--light-color);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* Стили для навигации */
+.navbar {
+    background: var(--white) !important;
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(255, 75, 141, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: var(--primary-color) !important;
+}
+
+.nav-link {
+    color: var(--dark-gray) !important;
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+    padding: 0.5rem 1rem !important;
+}
+
+.nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Стили для главной страницы */
+.welcome-screen {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #9B6BE3 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.welcome-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.app-icon {
+    margin-bottom: 2rem;
+}
+
+.app-icon img {
+    max-width: 120px;
+    height: auto;
+}
+
+.features {
+    margin-bottom: 3rem;
+}
+
+.features p {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+/* Стили для карточек */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    background: var(--white);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(255, 75, 141, 0.15);
+}
+
+.card-img-top {
+    border-radius: 15px 15px 0 0;
+    height: 250px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+/* Стили для кнопок */
+.btn {
+    border-radius: 30px;
+    padding: 0.8rem 2.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-light {
+    color: var(--primary-color);
+    background-color: #fff;
+    border-color: #fff;
+}
+
+.btn-light:hover {
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+    transform: translateY(-2px);
+}
+
+.btn-outline-light {
+    color: #fff;
+    border-color: #fff;
+}
+
+.btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #fff;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* Стили для форм */
+.form-control {
+    border-radius: 10px;
+    border: 2px solid var(--light-gray);
+    padding: 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(128, 66, 210, 0.25);
+}
+
+/* Стили для таблиц */
+.table {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.table thead th {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    font-weight: 600;
+    padding: 1rem;
+}
+
+.table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+/* Стили для футера */
+footer {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    padding: 4rem 0;
+}
+
+footer h5 {
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    color: var(--accent-color);
+}
+
+footer a {
+    color: rgba(255, 255, 255, 0.8);
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: var(--accent-color);
+}
+
+.social-icons a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    background: var(--primary-color);
+    transform: translateY(-3px);
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+    .welcome-content {
+        padding: 2rem;
+    }
+
+    .features p {
+        font-size: 1.1rem;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+    
+    .card-img-top {
+        height: 200px;
+    }
+    
+    footer {
+        text-align: center;
+    }
+    
+    .social-icons {
+        margin-top: 2rem;
+    }
+}
+
+/* Стили для страницы категории */
+.category-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 4rem 0;
+    margin-bottom: 3rem;
+}
+
+.master-card {
+    transition: transform 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.master-card:hover {
+    transform: translateY(-5px);
+}
+
+.master-image {
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+}
+
+.master-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.master-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.master-card:hover .master-overlay {
+    opacity: 1;
+}
+
+.master-card:hover .master-image img {
+    transform: scale(1.1);
+}
+
+/* Стили для страницы профиля мастера */
+.master-profile {
+    background-color: var(--light-color);
+}
+
+.master-photo img {
+    border: 5px solid white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.master-info {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.social-links a {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--primary-dark);
+}
+
+.review-item {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Стили для страницы записи */
+.appointment-section {
+    background-color: var(--light-color);
+}
+
+.appointment-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.service-info, .master-info {
+    background: var(--light-color);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+/* Стили для страницы профиля пользователя */
+.profile-section {
+    background-color: var(--light-color);
+}
+
+.profile-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-menu .list-group-item {
+    border: none;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.profile-menu .list-group-item:hover {
+    background-color: var(--light-color);
+}
+
+.profile-menu .list-group-item.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.tab-content {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.review-item {
+    border-bottom: 1px solid var(--light-color);
+    padding-bottom: 1rem;
+}
+
+.review-item:last-child {
+    border-bottom: none;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .master-card {
+        margin-bottom: 2rem;
+    }
+    
+    .profile-menu {
+        margin-bottom: 2rem;
+    }
+    
+    .tab-content {
+        padding: 1rem;
+    }
+}
+
+/* Боковое меню */
+.wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--primary-color);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.sidebar .nav {
+    padding: 20px 0;
+}
+
+.sidebar .nav-link {
+    color: white !important;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+}
+
+.sidebar .nav-link i {
+    margin-right: 15px;
+    width: 20px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    color: white !important;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left: 3px solid white;
+}
+
+.sidebar-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.sidebar-footer .social-links {
+    margin-bottom: 15px;
+}
+
+.sidebar-footer .social-links a {
+    color: white;
+    margin-right: 15px;
+    font-size: 1.2rem;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.sidebar-footer .social-links a:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.sidebar-footer .contact-info p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.sidebar-footer .contact-info i {
+    width: 20px;
+    color: white;
+    margin-right: 10px;
+}
+
+/* Основной контент */
+.main-content {
+    margin-left: var(--sidebar-width);
+    min-height: 100vh;
+    transition: all 0.3s ease;
+}
+
+/* Кнопка открытия меню */
+#sidebar-toggle {
+    display: none;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    #sidebar-toggle {
+        display: block;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+        width: 100%;
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+
+    .navbar {
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    .btn-link {
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+/* Оверлей для мобильного меню */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+/* Стили для кнопок показа пароля */
+.input-group .btn-outline-secondary {
+    border-color: #ced4da;
+    color: #6c757d;
+    background-color: transparent;
+    padding: 0.375rem 0.75rem;
+}
+
+.input-group .btn-outline-secondary:hover {
+    background-color: #f8f9fa;
+    border-color: #ced4da;
+    color: #495057;
+}
+
+.input-group .btn-outline-secondary:focus {
+    box-shadow: none;
+}
+
+.input-group .btn-outline-secondary i {
+    font-size: 1rem;
+}
+
+/* Исправление отображения иконки в кнопке при наличии ошибки */
+.input-group .form-control.is-invalid {
+    z-index: 0;
+}
+
+.input-group .btn-outline-secondary {
+    z-index: 0;
+}
+
+/* Текст */
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+/* Навигация */
+.navbar .nav-link {
+    color: var(--text-color);
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+    color: var(--primary-color);
+}
+
+/* Карточки */
+.card-title {
+    color: var(--primary-color);
+}
+
+/* Алерты */
+.alert-primary {
+    background-color: rgba(128, 66, 210, 0.1);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* Пагинация */
+.page-link {
+    color: var(--primary-color);
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+}
+
+/* Стили для поля пароля */
+.password-field {
+    position: relative;
+}
+
+.password-field .form-control {
+    padding-right: 40px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    color: var(--primary-color);
+    padding: 0;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.password-toggle:hover {
+    opacity: 1;
+}
+
+.password-toggle i {
+    font-size: 1.1rem;
+}
+
+/* Стили для кнопок */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: var(--primary-dark) !important;
+    border-color: var(--primary-dark) !important;
+    color: #fff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(128, 66, 210, 0.15);
+}
+
+/* Стили для ссылок */
+.text-primary:hover {
+    color: var(--primary-dark) !important;
+    text-decoration: none;
+}
+
+/* Стили для полей ввода при фокусе */
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(128, 66, 210, 0.25);
+}
+
+/* Стили для кнопки показа пароля */
+.password-toggle {
+    color: var(--primary-color);
+}
+
+.password-toggle:hover {
+    color: var(--primary-dark);
+}
+
+/* Навигационная панель */
+.bg-purple {
+    background-color: var(--primary-color) !important;
+}
+
+/* Футер */
+.bg-purple-dark {
+    background-color: var(--primary-dark) !important;
+}
+
+/* Кнопки */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+/* Ссылки */
+a {
+    color: var(--primary-color);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+/* Активные элементы */
+.navbar-nav .nav-link.active {
+    color: var(--primary-light) !important;
+}
+
+/* Дополнительные стили */
+.social-links a:hover {
+    color: var(--primary-light) !important;
+}
+
+.dropdown-item:hover {
+    background-color: var(--primary-light);
+    color: white;
+}
+
+.dropdown-item.text-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Стили для форм авторизации и регистрации */
+.auth-form, .signup-form {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background: white;
+}
+
+.auth-form h2, .signup-form h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.auth-form .form-group, .signup-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.auth-form .btn, .signup-form .btn,
+.auth-form .btn-primary, .signup-form .btn-primary,
+form .btn-primary {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+.auth-form .btn:hover, .signup-form .btn:hover,
+.auth-form .btn-primary:hover, .signup-form .btn-primary:hover,
+form .btn-primary:hover {
+    background-color: var(--primary-dark) !important;
+    border-color: var(--primary-dark) !important;
+    color: white !important;
+}
+
+.auth-form .form-text, .signup-form .form-text {
+    color: var(--light-text);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.auth-form .alert, .signup-form .alert {
+    margin-bottom: 1rem;
+}
+
+/* Стили для ссылок в формах */
+.auth-form a, .signup-form a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.auth-form a:hover, .signup-form a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+/* Переопределение стилей Bootstrap для кнопок в формах */
+.auth-form .btn:focus, .signup-form .btn:focus,
+.auth-form .btn-primary:focus, .signup-form .btn-primary:focus,
+.auth-form .btn:active, .signup-form .btn:active,
+.auth-form .btn-primary:active, .signup-form .btn-primary:active,
+form .btn-primary:focus,
+form .btn-primary:active {
+    background-color: var(--primary-dark) !important;
+    border-color: var(--primary-dark) !important;
+    box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25) !important;
+    color: white !important;
+}
+
+/* Навигационная панель */
+.bg-purple {
+    background-color: var(--primary-color) !important;
+}
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.75)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Ссылки в навигации */
+.navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.navbar-nav .nav-link:hover {
+    color: rgba(255, 255, 255, 1) !important;
+}
+
+/* Формы */
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+}
+
+/* Футер */
+.bg-purple-dark {
+    background-color: var(--primary-dark) !important;
+}
+
+/* Социальные ссылки */
+.social-links a {
+    color: rgba(255, 255, 255, 0.8) !important;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--primary-light) !important;
+}
+
+/* Дополнительные стили */
+.dropdown-item:hover {
+    background-color: var(--primary-light);
+    color: white;
+} 

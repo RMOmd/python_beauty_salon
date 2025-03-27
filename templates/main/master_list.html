@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Наши мастера{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-4 mb-3">Наши мастера</h1>
+            <p class="lead text-muted">Профессионалы с многолетним опытом работы</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        {% for master in masters %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm">
+                {% if master.photo %}
+                <img src="{{ master.photo.url }}" class="card-img-top" alt="{{ master.user.get_full_name }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ master.user.get_full_name }}</h5>
+                    <p class="card-text text-muted">{{ master.category.name }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{% url 'main:master_detail' master.pk %}" class="btn btn-primary">Подробнее</a>
+                        <div class="rating">
+                            <i class="fas fa-star text-warning"></i>
+                            <span class="ms-1">{{ master.experience }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="text-muted">Мастера пока не добавлены</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

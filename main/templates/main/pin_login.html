@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3 class="text-center mb-4">Вход в систему</h3>
+                    
+                    <div class="text-center mb-4">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-primary active" id="pinLoginBtn">PIN-код</button>
+                            <button type="button" class="btn btn-primary" id="biometricBtn">Биометрия</button>
+                        </div>
+                    </div>
+
+                    <form id="pinLoginForm" method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Имя пользователя" required>
+                        </div>
+                        
+                        <div class="pin-input-container text-center mb-4">
+                            <div class="pin-dots">
+                                <span class="pin-dot"></span>
+                                <span class="pin-dot"></span>
+                                <span class="pin-dot"></span>
+                                <span class="pin-dot"></span>
+                            </div>
+                            <input type="password" id="pinInput" name="pin_code" class="pin-input" maxlength="4" pattern="[0-9]*" inputmode="numeric" required>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Войти</button>
+                        </div>
+                    </form>
+
+                    <div id="biometricPrompt" class="text-center mt-4" style="display: none;">
+                        <p>Приложите палец к сканеру отпечатков или посмотрите в камеру</p>
+                        <form method="post" action="{% url 'main:verify_biometric' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="username" id="biometricUsername">
+                            <button type="button" class="btn btn-outline-primary" id="startBiometric">
+                                <i class="fas fa-fingerprint"></i> Начать сканирование
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <a href="{% url 'login' %}" class="text-muted">Войти с паролем</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.pin-input-container {
+    position: relative;
+    margin: 20px 0;
+}
+
+.pin-dots {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.pin-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 2px solid #007bff;
+    background: transparent;
+    transition: background-color 0.2s;
+}
+
+.pin-dot.filled {
+    background-color: #007bff;
+}
+
+.pin-input {
+    width: 100%;
+    text-align: center;
+    letter-spacing: 0.5em;
+    font-size: 1.5em;
+}
+</style>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const pinInput = document.getElementById('pinInput');
+    const dots = document.querySelectorAll('.pin-dot');
+    const pinLoginForm = document.getElementById('pinLoginForm');
+    const pinLoginBtn = document.getElementById('pinLoginBtn');
+    const biometricBtn = document.getElementById('biometricBtn');
+    const biometricPrompt = document.getElementById('biometricPrompt');
+    const usernameInput = document.getElementById('username');
+    const biometricUsername = document.getElementById('biometricUsername');
+
+    // Обработка ввода PIN-кода
+    pinInput.addEventListener('input', function() {
+        const value = this.value;
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('filled', index < value.length);
+        });
+    });
+
+    // Переключение между PIN и биометрией
+    pinLoginBtn.addEventListener('click', function() {
+        pinLoginForm.style.display = 'block';
+        biometricPrompt.style.display = 'none';
+        pinLoginBtn.classList.add('active');
+        biometricBtn.classList.remove('active');
+    });
+
+    biometricBtn.addEventListener('click', function() {
+        pinLoginForm.style.display = 'none';
+        biometricPrompt.style.display = 'block';
+        biometricBtn.classList.add('active');
+        pinLoginBtn.classList.remove('active');
+        biometricUsername.value = usernameInput.value;
+    });
+
+    // Синхронизация имени пользователя
+    usernameInput.addEventListener('input', function() {
+        biometricUsername.value = this.value;
+    });
+
+    // Отправка формы
+    pinLoginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+
+        try {
+            const response = await fetch('{% url "main:pin_login" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            });
+
+            const data = await response.json();
+            if (data.status === 'success') {
+                window.location.href = data.redirect_url;
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Произошла ошибка при входе');
+        }
+    });
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Главная - Beauty Salon{% endblock %}
+
+{% block extra_head %}
+<!-- Подключаем Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<style>
+    .leaflet-popup-content-wrapper {
+        background: white;
+        color: #333;
+        border-radius: 15px;
+    }
+    .leaflet-popup-content h6 {
+        color: var(--primary-color);
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    .leaflet-popup-content p {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+    .social-links a:hover i {
+        transform: translateY(-3px);
+        transition: transform 0.3s ease;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+    <div class="row g-0">
+        <div class="col-12">
+            <div class="welcome-screen text-center py-5" style="background: linear-gradient(135deg, #8042D2 0%, #9B6BE3 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="welcome-content text-white">
+                                <div class="app-icon mb-4">
+                                    <img src="{% static 'images/logo-white.png' %}" alt="BeautyMS" class="img-fluid" style="max-width: 120px;">
+                                </div>
+                                <h1 class="display-4 fw-bold mb-4">BEAUTYMS</h1>
+                                <div class="features mb-5">
+                                    <p class="lead mb-3">Бьюти услуги с выездом к Вам 24 часа!</p>
+                                    <p class="lead mb-3">Через час мы у Вас!</p>
+                                    <p class="lead mb-4">Только лучшие мастера!</p>
+                                </div>
+                                <div class="buttons">
+                                    <a href="{% url 'account_signup' %}" class="btn btn-light btn-lg px-5 py-3 mb-3 mb-md-0 me-md-3" style="color: #8042D2; font-weight: 600; border-radius: 30px;">
+                                        Регистрация
+                                    </a>
+                                    <a href="{% url 'account_login' %}" class="btn btn-outline-light btn-lg px-5 py-3" style="font-weight: 600; border-radius: 30px;">
+                                        Вход
+                                    </a>
+                                </div>
+                                <div class="mt-4">
+                                    <a href="{% url 'main:master_list' %}" class="text-white text-decoration-none">
+                                        Войти как мастер
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Категории услуг -->
+<section class="categories py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Наши услуги</h2>
+        <div class="row g-4">
+            {% for category in categories %}
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    {% if category.image %}
+                    <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ category.name }}</h5>
+                        <p class="card-text text-muted">{{ category.description }}</p>
+                        <a href="{% url 'main:category_detail' category.pk %}" class="btn btn-outline-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'main:category_list' %}" class="btn btn-primary">Все услуги</a>
+        </div>
+    </div>
+</section>
+
+<!-- Наши мастера -->
+<section class="masters py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Наши мастера</h2>
+        <div class="row g-4">
+            {% for master in masters %}
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    {% if master.photo %}
+                    <img src="{{ master.photo.url }}" class="card-img-top" alt="{{ master.user.get_full_name }}">
+                    {% endif %}
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ master.user.get_full_name }}</h5>
+                        <p class="card-text text-muted mb-4">{{ master.category.name }}</p>
+                        <a href="{% url 'main:master_detail' master.pk %}" class="btn btn-outline-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'main:master_list' %}" class="btn btn-primary">Все мастера</a>
+        </div>
+    </div>
+</section>
+
+<!-- Преимущества -->
+<section class="features py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Почему выбирают нас</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <i class="fas fa-award fa-3x text-primary mb-3"></i>
+                    <h4>Профессионализм</h4>
+                    <p class="text-muted">Наши мастера - опытные специалисты с профильным образованием</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <i class="fas fa-clock fa-3x text-primary mb-3"></i>
+                    <h4>Удобная запись</h4>
+                    <p class="text-muted">Онлайн-запись 24/7 и удобное расписание работы</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <i class="fas fa-heart fa-3x text-primary mb-3"></i>
+                    <h4>Индивидуальный подход</h4>
+                    <p class="text-muted">Учитываем все пожелания и особенности каждого клиента</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Контакты и карта -->
+<section class="contacts py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Контакты</h2>
+        <div class="row">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary mb-4">Как нас найти</h5>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-3 d-flex align-items-center">
+                                <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                <span class="text-dark">ул. Примерная, 123</span>
+                            </li>
+                            <li class="mb-3 d-flex align-items-center">
+                                <i class="fas fa-phone text-primary me-2"></i>
+                                <span class="text-dark">+7 (999) 123-45-67</span>
+                            </li>
+                            <li class="mb-3 d-flex align-items-center">
+                                <i class="fas fa-clock text-primary me-2"></i>
+                                <span class="text-dark">Пн-Вс: 10:00 - 21:00</span>
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <i class="fas fa-envelope text-primary me-2"></i>
+                                <span class="text-dark">info@beautysalon.ru</span>
+                            </li>
+                        </ul>
+                        
+                        <h5 class="card-title text-primary mb-4">Мы в соцсетях</h5>
+                        <div class="social-links d-flex gap-4">
+                            <a href="https://instagram.com" class="text-decoration-none" target="_blank" title="Instagram">
+                                <i class="fab fa-instagram fa-2x text-primary"></i>
+                            </a>
+                            <a href="https://t.me" class="text-decoration-none" target="_blank" title="Telegram">
+                                <i class="fab fa-telegram fa-2x text-primary"></i>
+                            </a>
+                            <a href="https://wa.me/79991234567" class="text-decoration-none" target="_blank" title="WhatsApp">
+                                <i class="fab fa-whatsapp fa-2x text-primary"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div id="map" style="height: 400px;" class="rounded-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Подключаем Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Координаты салона
+    const lat = 55.7558;
+    const lng = 37.6173;
+
+    // Создаем карту
+    const map = L.map('map').setView([lat, lng], 15);
+
+    // Добавляем слой OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Создаем иконку маркера
+    const icon = L.divIcon({
+        html: `<div style="width: 25px; height: 41px; position: relative;">
+            <svg width="25" height="41" viewBox="0 0 25 41" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.5,0 C5.59644063,0 0,5.59644063 0,12.5 C0,19.4035594 12.5,41 12.5,41 C12.5,41 25,19.4035594 25,12.5 C25,5.59644063 19.4035594,0 12.5,0 Z M12.5,17.5 C10.8431458,17.5 9.5,16.1568542 9.5,14.5 C9.5,12.8431458 10.8431458,11.5 12.5,11.5 C14.1568542,11.5 15.5,12.8431458 15.5,14.5 C15.5,16.1568542 14.1568542,17.5 12.5,17.5 Z" fill="var(--primary-color)"/>
+            </svg>
+        </div>`,
+        className: 'custom-marker',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34]
+    });
+
+    // Добавляем маркер с кастомной иконкой
+    const marker = L.marker([lat, lng], {icon: icon}).addTo(map);
+
+    // Добавляем всплывающее окно с кратким описанием
+    marker.bindPopup(`
+        <div style="min-width: 200px; text-align: center;">
+            <h6 style="margin: 0 0 10px;">Beauty Salon</h6>
+            <p style="margin: 0;">Нажмите для построения маршрута</p>
+        </div>
+    `);
+});
+</script>
+{% endblock %} 

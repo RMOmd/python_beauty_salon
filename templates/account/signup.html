@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-4">{% trans "Sign Up" %}</h3>
+
+                    <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">{% trans "Email" %}</label>
+                            <input type="email" name="email" class="form-control" id="id_email" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_username" class="form-label">{% trans "Username" %}</label>
+                            <input type="text" name="username" class="form-control" id="id_username" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_password1" class="form-label">{% trans "Password" %}</label>
+                            <div class="password-field">
+                                <input type="password" name="password1" class="form-control" id="id_password1" required>
+                                <button type="button" class="password-toggle" onclick="togglePassword('id_password1')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="id_password2" class="form-label">{% trans "Password (again)" %}</label>
+                            <div class="password-field">
+                                <input type="password" name="password2" class="form-control" id="id_password2" required>
+                                <button type="button" class="password-toggle" onclick="togglePassword('id_password2')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">{% trans "Sign Up" %}</button>
+                    </form>
+
+                    <p class="text-center mt-4">
+                        {% trans "Already have an account?" %}
+                        <a href="{{ login_url }}" class="text-primary">{% trans "Sign In" %}</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function togglePassword(inputId) {
+    const input = document.getElementById(inputId);
+    const button = input.nextElementSibling;
+    const icon = button.querySelector('i');
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
+</script>
+{% endblock %} 

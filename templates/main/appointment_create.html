@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}Запись на услугу - Салон красоты{% endblock %}
+
+{% block content %}
+<section class="appointment-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title text-center mb-4">Запись на услугу</h1>
+                        
+                        {% if service %}
+                        <div class="service-info mb-4">
+                            <h3>{{ service.name }}</h3>
+                            <p class="text-muted">{{ service.description }}</p>
+                            <div class="service-details">
+                                <span class="badge bg-primary me-2">{{ service.duration }} мин.</span>
+                                <span class="badge bg-success">{{ service.price }} ₽</span>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if master %}
+                        <div class="master-info mb-4">
+                            <h3>Мастер: {{ master.user.get_full_name }}</h3>
+                            {% if master.photo %}
+                            <img src="{{ master.photo.url }}" class="img-thumbnail" style="max-width: 100px;" alt="{{ master.user.get_full_name }}">
+                            {% endif %}
+                        </div>
+                        {% endif %}
+
+                        <form method="post" class="appointment-form">
+                            {% csrf_token %}
+                            
+                            {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                            {% endif %}
+
+                            <div class="mb-3">
+                                <label for="{{ form.date.id_for_label }}" class="form-label">Дата</label>
+                                {{ form.date }}
+                                {% if form.date.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.date.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.time.id_for_label }}" class="form-label">Время</label>
+                                {{ form.time }}
+                                {% if form.time.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.time.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.notes.id_for_label }}" class="form-label">Дополнительные пожелания</label>
+                                {{ form.notes }}
+                                {% if form.notes.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.notes.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">Записаться</button>
+                                <a href="{% url 'main:home' %}" class="btn btn-outline-secondary">Отмена</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Инициализация календаря
+    const dateInput = document.getElementById('{{ form.date.id_for_label }}');
+    if (dateInput) {
+        dateInput.min = new Date().toISOString().split('T')[0];
+    }
+
+    // Инициализация выбора времени
+    const timeInput = document.getElementById('{{ form.time.id_for_label }}');
+    if (timeInput) {
+        timeInput.min = '09:00';
+        timeInput.max = '21:00';
+    }
+});
+</script>
+{% endblock %} 
